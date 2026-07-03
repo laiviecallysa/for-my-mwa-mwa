@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A Little Surprise 🤍</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+
+background:linear-gradient(135deg,#ffdce5,#ffeef5,#fff8fb);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+height:100vh;
+
+overflow:hidden;
+
+}
+
+.page{
+
+display:none;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+text-align:center;
+
+width:90%;
+
+max-width:700px;
+
+background:rgba(255,255,255,.55);
+
+backdrop-filter:blur(18px);
+
+padding:40px;
+
+border-radius:25px;
+
+box-shadow:0 15px 40px rgba(0,0,0,.1);
+
+animation:fade .8s;
+
+}
+
+.active{
+
+display:flex;
+
+}
+
+h1{
+
+color:#ff5c8a;
+
+margin-bottom:15px;
+
+}
+
+p{
+
+color:#555;
+
+line-height:1.8;
+
+margin-bottom:20px;
+
+}
+
+button{
+
+padding:13px 35px;
+
+border:none;
+
+border-radius:30px;
+
+background:#ff7fa5;
+
+color:white;
+
+font-size:16px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+button:hover{
+
+transform:scale(1.05);
+
+background:#ff5c8a;
+
+}
+
+input{
+
+padding:12px;
+
+border-radius:20px;
+
+border:1px solid #ddd;
+
+width:250px;
+
+text-align:center;
+
+margin-bottom:15px;
+
+font-size:16px;
+
+}
+
+.message{
+
+color:red;
+
+margin-top:10px;
+
+}
+
+@keyframes fade{
+
+from{
+
+opacity:0;
+
+transform:translateY(20px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+/* Stars */
+
+.star-container{
+
+display:grid;
+
+grid-template-columns:repeat(4,70px);
+
+gap:20px;
+
+margin:30px;
+
+}
+
+.star{
+
+font-size:45px;
+
+cursor:pointer;
+
+transition:.3s;
+
+user-select:none;
+
+}
+
+.star:hover{
+
+transform:scale(1.2);
+
+}
+
+.clicked{
+
+color:gold;
+
+transform:scale(1.3);
+
+}
+
+.hidden{
+
+display:none;
+
+}
+
+/* Quiz */
+
+.quiz-box{
+
+width:100%;
+
+}
+
+.option{
+
+width:100%;
+
+margin:10px 0;
+
+}
+
+/* Gallery */
+
+.gallery{
+
+display:flex;
+
+gap:20px;
+
+margin:20px;
+
+flex-wrap:wrap;
+
+justify-content:center;
+
+}
+
+.gallery img{
+
+width:220px;
+
+height:280px;
+
+object-fit:cover;
+
+border-radius:20px;
+
+box-shadow:0 10px 20px rgba(0,0,0,.15);
+
+}
+
+/* Popup */
+
+.popup{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+background:rgba(0,0,0,.5);
+
+display:none;
+
+justify-content:center;
+
+align-items:center;
+
+}
+
+.popup-content{
+
+background:white;
+
+padding:40px;
+
+border-radius:20px;
+
+text-align:center;
+
+animation:fade .5s;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- OPENING -->
+
+<div class="page active" id="page1">
+
+<h1>A Little Surprise 🤍</h1>
+
+<p>
+
+Hi!
+
+Before you open this gift, I just want you to slow down and enjoy every little surprise I've prepared for you.
+
+<br><br>
+
+It may not be perfect, but everything here was made with love.
+
+<br><br>
+
+Ready? ✨
+
+</p>
+
+<button onclick="nextPage(2)">Start</button>
+
+</div>
+
+<!-- PASSWORD -->
+
+<div class="page" id="page2">
+
+<h1>🔐 Unlock the Gift</h1>
+
+<p>
+
+Do you remember my birthday (day and month)?
+
+</p>
+
+<input type="text" id="password" placeholder="Day Month">
+
+<button onclick="checkPassword()">Unlock</button>
+
+<p class="message" id="passMessage"></p>
+
+</div>
+
+<!-- STARS -->
+
+<div class="page" id="page3">
+
+<h1>⭐ Make a Wish</h1>
+
+<p>Tap all the stars to continue ✨</p>
+
+<div class="star-container">
+
+<div class="star">⭐</div>
+<div class="star">⭐</div>
+<div class="star">⭐</div>
+<div class="star">⭐</div>
+<div class="star">⭐</div>
+<div class="star">⭐</div>
+<div class="star">⭐</div>
+<div class="star">⭐</div>
+
+</div>
+
+<p id="starText" class="hidden">
+
+I'm so lucky to have met you. 🤍
+
+</p>
+
+<button id="starBtn" class="hidden" onclick="nextPage(4)">
+
+Continue
+
+</button>
+
+</div>
+
+<!-- ========================= -->
+<!-- QUIZ -->
+<!-- ========================= -->
+
+<div class="page" id="page4">
+
+<h1>🧩 How Well Do You Know Me?</h1>
+
+<p>Let's see how well you know me! 🤍</p>
+
+<div class="quiz-box">
+
+<h3>1. What's my favorite color?</h3>
+
+<input type="text" id="q1" placeholder="Your answer">
+
+<br><br>
+
+<h3>2. Do you love me? 🤍</h3>
+
+<input type="text" id="q2" placeholder="Your answer">
+
+<br><br>
+
+<h3>3. What's the nickname I usually call you?</h3>
+
+<input type="text" id="q3" placeholder="Your answer">
+
+<br><br>
+
+<h3>4. What's my favorite song?</h3>
+
+<input type="text" id="q4" placeholder="Your answer">
+
+<br><br>
+
+<h3>5. Do I like spicy food?</h3>
+
+<input type="text" id="q5" placeholder="Yes / No">
+
+<br><br>
+
+<p class="message" id="quizMessage"></p>
+
+<button onclick="checkQuiz()">
+Submit
+</button>
+
+</div>
+
+</div>
+
+<!-- ========================= -->
+<!-- GALLERY -->
+<!-- ========================= -->
+
+<div class="page" id="page5">
+
+<h1>📸 photos </h1>
+
+<p>
+
+Take a look at these. 🤍
+
+</p>
+
+<div class="gallery">
+
+<img src="my bebe.jpg" alt="Photo 1">
+
+<img src="my love.jpg" alt="Photo 2">
+
+</div>
+
+<p>
+
+Every picture tells a story,
+and every story reminds me of you. ✨
+
+</p>
+
+<button onclick="nextPage(6)">
+Next
+</button>
+
+</div>
+
+<!-- ========================= -->
+<!-- SHORT MESSAGE -->
+<!-- ========================= -->
+
+<div class="page" id="page6">
+
+<h1>💌 A Little Note</h1>
+
+<p>
+
+Before you go...
+
+<br><br>
+
+Thank you for taking the time to open this little gift.
+
+<br><br>
+
+I know it's simple,
+but every page was made especially for you.
+
+<br><br>
+
+I hope it made you smile,
+even just for a moment.
+
+<br><br>
+
+Having you in my life
+is something I'm truly grateful for. 🤍
+
+</p>
+
+<button onclick="nextPage(7)">
+
+One Last Page
+
+</button>
+
+</div>
+
+<!-- ========================= -->
+<!-- ENDING -->
+<!-- ========================= -->
+
+<div class="page" id="page7">
+
+<h1>🌙 That's All For Now</h1>
+
+<p>
+
+Thank you for opening my little surprise.
+
+<br><br>
+
+I hope this little gift made you smile,
+even if just for a moment.
+
+<br><br>
+
+Thank you for being part of my life.
+
+<br><br>
+
+I wish you happiness,
+good health,
+and endless reasons to smile.
+
+<br><br>
+
+See you in our next beautiful memory. 🤍✨
+
+</p>
+
+<button onclick="showPopup()">
+
+One More Click... 👀
+
+</button>
+
+</div>
+
+<!-- ========================= -->
+<!-- SECRET POPUP -->
+<!-- ========================= -->
+
+<div class="popup" id="popup">
+
+<div class="popup-content">
+
+<h1>🤍</h1>
+
+<h2>
+
+Just one more thing...
+
+</h2>
+
+<br>
+
+<p>
+
+I love you.
+
+<br><br>
+
+Thank you for being you.
+
+🤍
+
+</p>
+
+<br>
+
+<button onclick="closePopup()">
+
+Close
+
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+function nextPage(page){
+
+document.querySelectorAll(".page").forEach(p=>{
+
+p.classList.remove("active");
+
+});
+
+document.getElementById("page"+page).classList.add("active");
+
+}
+
+function checkPassword(){
+
+let pass=document.getElementById("password").value.toLowerCase().trim();
+
+if(pass=="3 september"){
+
+nextPage(3);
+
+}else{
+
+document.getElementById("passMessage").innerHTML=
+
+"Sorry, that's not correct. Please try again. 🤍";
+
+}
+
+}
+
+let stars=document.querySelectorAll(".star");
+
+let count=0;
+
+stars.forEach(star=>{
+
+star.addEventListener("click",()=>{
+
+if(!star.classList.contains("clicked")){
+
+star.classList.add("clicked");
+
+count++;
+
+}
+
+if(count==stars.length){
+
+document.getElementById("starText").classList.remove("hidden");
+
+document.getElementById("starBtn").classList.remove("hidden");
+
+}
+
+});
+
+});
+
+function checkQuiz(){
+
+let a1=document.getElementById("q1").value.toLowerCase().trim();
+let a2=document.getElementById("q2").value.toLowerCase().trim();
+let a3=document.getElementById("q3").value.toLowerCase().trim();
+let a4=document.getElementById("q4").value.toLowerCase().trim();
+let a5=document.getElementById("q5").value.toLowerCase().trim();
+
+/*
+==========================================
+GANTI JAWABAN DI BAWAH SESUAI PUNYA KAMU
+==========================================
+
+favorite color  : pink
+love me         : yes
+nickname        : bebe
+favorite song   : true love
+spicy food      : yes
+
+Contoh:
+a1=="pink"
+a2=="yes"
+dst.
+*/
+
+if(
+a1=="pink" &&
+a2=="yes" &&
+a3=="bebe" &&
+a4=="true love " &&
+a5=="yes"
+){
+
+nextPage(5);
+
+}else{
+
+document.getElementById("quizMessage").innerHTML=
+"Sorry, that's not correct. Please try again. 🤍";
+
+}
+
+}
+
+function showPopup(){
+
+document.getElementById("popup").style.display="flex";
+
+}
+
+function closePopup(){
+
+document.getElementById("popup").style.display="none";
+
+}
+
+</script>
+
+</body>
+
+</html>
